@@ -1,24 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import './App.scss';
 
 function App() {
+  const [ data, setData ] = useState<any>([]);
+  
+  useEffect(() => {
+    fetch('https://055d8281-4c59-4576-9474-9b4840b30078.mock.pstmn.io/subjects')
+      .then((res) => res.json())
+      .then( data => {
+        setData(data.data)
+        console.log(data.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <table className='main__table'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Diagnosis Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map((item: any, index: number) => {
+              return (
+              <tr key={index}>
+                <td>{item.id}</td> 
+                <td>{item.name}</td> 
+                <td>{item.gender}</td> 
+                <td>{item.age}</td> 
+                <td>{item.diagnosisDate}</td> 
+                <td>{item.status}</td>  
+              </tr>
+              )})
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
