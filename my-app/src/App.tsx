@@ -1,15 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
+import { Data } from 'ws';
+
+interface DataItem {
+  id: string;
+  name: string;
+  gender: string;
+  age: string;
+  diagnosisDate: string;
+  status: string;
+}
 
 function App() {
   const [ data, setData ] = useState<any>([]);
+  const [ sortField, setSortField ] = useState({ fieldToSort: 'id', direction: 'asc' })
+
+  const handleHeaderClick = (field: string) => {
+    setSortField({
+      fieldToSort: field,
+      direction: 
+      field === sortField.fieldToSort ? sortField.direction === 'asc' ? 'desc' : 'asc' : 'desc'
+    })
+  }
+
+  const sortedData = () => {
+    if (sortField.direction === 'asc') {
+      return data.sort((a: any, b: any) => (a[sortField.fieldToSort] > b[sortField.fieldToSort]) ? 1 : -1)
+    } else {
+      return data.sort((a: any, b: any) => (a[sortField.fieldToSort] < b[sortField.fieldToSort]) ? 1 : -1)
+    }
+  }
   
   useEffect(() => {
     fetch('https://055d8281-4c59-4576-9474-9b4840b30078.mock.pstmn.io/subjects')
       .then((res) => res.json())
       .then( data => {
         setData(data.data)
-        console.log(data.data)
       })
       .catch((err) => {
         console.log(err);
@@ -26,17 +52,29 @@ function App() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Age</th>
-                <th>Diagnosis Date</th>
-                <th>Status</th>
+                <th onClick={() => handleHeaderClick('id')}>
+                  ID {sortField.fieldToSort === 'id' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleHeaderClick('name')}>
+                  Name {sortField.fieldToSort === 'name' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleHeaderClick('gender')}>
+                  Gender {sortField.fieldToSort === 'gender' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleHeaderClick('age')}>
+                  Age {sortField.fieldToSort === 'age' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleHeaderClick('diagnosisDate')}>
+                  Diagnosis Date {sortField.fieldToSort === 'diagnosisDate' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleHeaderClick('status')}>
+                  Status {sortField.fieldToSort === 'status' && (sortField.direction === 'asc' ? '↑' : '↓')}
+                </th>
               </tr>
             </thead>
             <tbody>
               {
-                data.map((item: any, index: number) => {
+                sortedData().map((item: DataItem, index: number) => {
                   return (
                   <tr key={index}>
                     <td>{item.id}</td>
