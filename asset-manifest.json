@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/vial-assignment/static/css/main.df620992.css",
+    "main.js": "/vial-assignment/static/js/main.dca0bfe7.js",
+    "static/js/453.ed3810f9.chunk.js": "/vial-assignment/static/js/453.ed3810f9.chunk.js",
+    "index.html": "/vial-assignment/index.html",
+    "main.df620992.css.map": "/vial-assignment/static/css/main.df620992.css.map",
+    "main.dca0bfe7.js.map": "/vial-assignment/static/js/main.dca0bfe7.js.map",
+    "453.ed3810f9.chunk.js.map": "/vial-assignment/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.df620992.css",
+    "static/js/main.dca0bfe7.js"
+  ]
+}
