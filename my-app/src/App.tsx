@@ -14,7 +14,8 @@ interface DataItem {
 function App() {
   const [ data, setData ] = useState<any>([]);
   const [ sortField, setSortField ] = useState({ fieldToSort: 'id', direction: 'asc' })
-  const [filterOptions, setFilterOptions] = useState<string[]>(['All']);
+  const [ filterOptions, setFilterOptions ] = useState<string[]>(['All']);
+  const [ query, setQuery ] = useState("")
 
   const handleHeaderClick = (field: string) => {
     setSortField({
@@ -49,17 +50,18 @@ function App() {
     <body className='body'>
       <main className="table">
         <section className='table__header'>
-        <MultiSelect
-          label="Filter the data!"
-          placeholder="Filter by..."
-          data={filterItems}
-          onChange={setFilterOptions}
-          style={{ width: '35%' }}
-          defaultValue={['All']}
-          clearable
-          searchable
-          nothingFoundMessage="Nothing found..."
-        />
+          <MultiSelect
+            label="Filter the data!"
+            placeholder="Filter by..."
+            data={filterItems}
+            onChange={setFilterOptions}
+            style={{ width: '35%', minWidth: '15rem' }}
+            defaultValue={['All']}
+            clearable
+            searchable
+            nothingFoundMessage="Nothing found..."
+          />
+          <input type="text" placeholder='Search name...' className='table__search' onChange={ e => {setQuery(e.target.value)}} />
         </section>
         <section className="table__body">
           <table>
@@ -92,8 +94,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {
-                sortedData().map((item: DataItem, index: number) => {
+              { sortedData().filter((item: DataItem) => item.name.toLowerCase().includes(query)).map((item: DataItem, index: number) => {
                   return (
                   <tr key={index}>
                     {(filterOptions.includes('All') || filterOptions.includes('ID')) && ( <td>{item.id}</td> )}

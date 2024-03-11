@@ -23,6 +23,16 @@ body {
     background-color: #f3f3f3;
     padding: 0.8rem 1rem;
     font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  &__search {
+    padding: 14px;
+    border: none;  
+    height: 2.25rem;  
+    border-radius: 1rem;
+    font-size: 1rem;
   }
   &__body {
     width: 95%;
@@ -78,6 +88,9 @@ table {
 }
 
 @media (max-width: 768px) {
+  .table__search {
+    width: 10rem;
+  }
   td {
   min-width: 12rem;
   }
